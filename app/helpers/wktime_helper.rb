@@ -1,3 +1,4 @@
+#<!-- Carnac modified file --> last changed HC 8/3/23 
 # ERPmine - ERP for service industry
 # Copyright (C) 2011-2021  Adhi software pvt ltd
 #
@@ -592,16 +593,24 @@ end
 	end
 
 	def getTimeEntryStatus(spent_on,user_id)
+	
 		#result = Wktime.find(:all, :conditions => [ 'begin_date = ? AND user_id = ?', getStartDay(spent_on), user_id])
-		start_day = getStartDay(spent_on)
-		locked  = isLocked(start_day)
+
+#<!-- Carnac modified file -->
+ #HC 	start_day = getStartDay(spent_on)
+ #HC	locked  = isLocked(start_day)
+
+
+		locked  = isLocked(spent_on)	#HC this line was added to lock only from lock date, rather than for whole week.
+
 		#locked = call_hook(:controller_check_locked,{ :startdate => start_day})
 		locked  = locked.blank? ? '' : (locked.is_a?(Array) ? (locked[0].blank? ? '': locked[0].to_s) : locked.to_s)
 		locked = ( !locked.blank? && to_boolean(locked))
 		if locked
 			result = 'l'
 		else
-			result = Wktime.where(['begin_date = ? AND user_id = ?', start_day, user_id])
+	#HC		result = Wktime.where(['begin_date = ? AND user_id = ?', start_day, user_id])
+			result = Wktime.where(['begin_date = ? AND user_id = ?', spent_on, user_id]) #HC line modified
 			result = result[0].blank? ? 'n' : result[0].status
 		end
 		return 	result

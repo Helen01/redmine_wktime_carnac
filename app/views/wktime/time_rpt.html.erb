@@ -1,9 +1,10 @@
+<!-- Carnac modified file --> <!-- last modified 7/3/23 by Helen Cockerill-->
 <style type="text/css">
 	table { 
 		table-layout: fixed; 
 		word-wrap: break-word; text-align: center; 
-		margin-top:5px; margin-bottom:10px; padding-left: 10px; color:#333333;
-		font-family:Verdana, sans-serif; font-size:12px; 
+		margin-top:4px; margin-bottom:5px; padding-left: 5px; color:#333333;
+		font-family:Verdana, sans-serif; font-size:11px; 
 	}		
 	.txt-align {
 		text-align: left; !important;
@@ -11,18 +12,26 @@
 </style>
 <% @entries = controller.findEntries() %>
 <div id="time-rpt-dlg" style="overflow-x:auto;">
-	<center><b><%= controller.getTELabel() %></b></center>
+	<center><b><font size="+0">Carnac Timesheet - <%= l(:label_week) %> Ending <%= (@startday+6).strftime("%A, %d %B, %Y") %></font></b></center>
 	<div>
 	<div style="float:left">
 		<table>
 			<tr>
-				<td class="txt-align" width="100px"><b><%= l(:field_name) %></b></td>
-				<td class="txt-align" width="200px">: <%= @user.name %></td>
+				<td class="txt-align" width="200px"><b><font size="+1"><%= l(:field_name) %></font></b></td>
+				<td class="txt-align" width="400px"><font size="+1">: <%= @user.name %></font></td>
 			</tr>
 			<tr>
-				<td class="txt-align" width="100px"><b><%= l(:label_week) %></b></td>
-				<td class="txt-align" width="200px">: <%= @startday.to_s + " - " + (@startday+6).to_s %>
-			</tr>		
+				<td class="txt-align" width="200px"><b><font size="+1"><%= l(:label_week) %> Ending</font></b></td>
+
+				<td class="txt-align" width="400px"><font size="+1">: <%= (@startday+6).strftime("%A, %d %B, %Y") %></font></td>
+			</tr>
+			<tr> </tr>
+			<tr>
+				<td class="txt-align" width="200px"><b><font size="+1">PO Number</font></b></td>
+				<td class="txt-align" width="400px"><font size="+1">: <%= @PONUM.present? ? @PONUM : "N/A" %></font>
+
+			</tr>	
+		
 		</table>
 	</div>
 	<div style="float:right">
@@ -145,21 +154,25 @@
 	</table>		
 	<% submissionAck = Setting.plugin_redmine_wktime['wktime_submission_ack'] %>
 	<p style="font-family:Verdana, sans-serif; font-size:12px;"><%= submissionAck %></p>
-	<div style="float:right;">
-		
-		<table>
-			<tr>
-				<td class="txt-align" width="90px"><b><%= l(:label_wk_signature) %> : </b></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td class="txt-align" width="90px"><b><%= l(:label_wk_submitted_by) %></b></td>
-				<td>________________________________</td>
-			</tr>
-			<tr>
-				<td class="txt-align" width="90px"><b><%= l(:label_wk_approved_by) %></b></td>
-				<td>________________________________</td>
-			</tr>
-		</table>
-	</div>
+<div style="text-align:left;">
+  <table>
+    <tr>
+      <td class="txt-align" width="90px"><b><%= l(:label_wk_signature) %> : </b></td>
+      <td></td>
+      <td class="txt-align" width="180px"><b>  </b></td>
+    </tr>
+    <tr>
+      <td class="txt-align" width="90px"><%= l(:label_wk_submitted_by) %></td>
+      <td style="padding-top: 10px; padding-bottom: 10px;">________________________________</td>
+      <td style="padding-top: 10px; padding-bottom: 10px;">Date ____________</td>
+    </tr>
+    <tr>
+      <td class="txt-align" width="90px"><%= l(:label_wk_approved_by) %></td>
+      <td style="padding-top: 10px; padding-bottom: 10px;">________________________________</td>
+      <td style="padding-top: 10px; padding-bottom: 10px;">Date ____________</td>
+    </tr>
+  </table>
+</div>
+
+
 </div>
