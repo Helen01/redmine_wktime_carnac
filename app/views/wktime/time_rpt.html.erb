@@ -1,4 +1,4 @@
-<!-- Carnac modified file --> <!-- last modified 7/3/23 by Helen Cockerill-->
+<!-- Carnac modified file --> <!-- last modified 22/6/23 by Helen Cockerill-->
 <style type="text/css">
 	table { 
 		table-layout: fixed; 
@@ -10,7 +10,17 @@
 		text-align: left; !important;
 	}
 </style>
-<% @entries = controller.findEntries() %>
+
+
+  <% @entries = controller.findEntries() %>
+
+  <% if @project.present? && @project.id.present? %>
+  <% @entries = controller.findEntries().select { |entry| entry.project_id == @project.id } %>
+	<% end %>
+
+
+
+
 <div id="time-rpt-dlg" style="overflow-x:auto;">
 	<center><b><font size="+0">Carnac Timesheet - <%= l(:label_week) %> Ending <%= (@startday+6).strftime("%A, %d %B, %Y") %></font></b></center>
 	<div>
@@ -28,9 +38,16 @@
 			<tr> </tr>
 			<tr>
 				<td class="txt-align" width="200px"><b><font size="+1">PO Number</font></b></td>
-				<td class="txt-align" width="400px"><font size="+1">: <%= @PONUM.present? ? @PONUM : "N/A" %></font>
+				<td class="txt-align" width="400px"><font size="+1">: <%= @PONUM.present? ? @PONUM : "N/A" %></font></td>
 
 			</tr>	
+<!-- 
+			<tr>
+			    <td class="txt-align" width="200px"><b><font size="+1">Project ID</font></b></td>
+			    <td class="txt-align" width="400px"><font size="+1">: <%= @project.present? && @project.id.present? ? @project.id : "N/A" %></font></td>
+
+			</tr>
+-->
 		
 		</table>
 	</div>

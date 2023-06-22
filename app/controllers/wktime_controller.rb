@@ -1,3 +1,5 @@
+# <!-- Carnac modified file --> <!-- last modified 22/6/23 by Helen Cockerill-->
+
 # ERPmine - ERP for service industry
 # Copyright (C) 2011-2020  Adhi software pvt ltd
 #
@@ -1212,10 +1214,18 @@ include ActionView::Helpers::TagHelper
 		totalBT
 	end
 
-	def time_rpt
-		@user = (session[:wkreport].try(:[], :user_id).blank? || (session[:wkreport].try(:[], :user_id)).to_i < 1) ? User.current : User.find(session[:wkreport].try(:[], :user_id))
-		@startday = getStartDay((session[:wkreport][:from]).to_s.to_date)
-		render :action => 'time_rpt', :layout => false
+
+
+	def time_rpt # HC @project added to make timesheet filterable by project - 22/6/2023
+	  @user = (session[:wkreport].try(:[], :user_id).blank? || (session[:wkreport].try(:[], :user_id)).to_i < 1) ? User.current : User.find(session[:wkreport].try(:[], :user_id))
+    	if session[:wkreport].try(:[], :project_id).present?
+			@project = Project.find(session[:wkreport].try(:[], :project_id))
+		else
+			@project = nil
+		end
+
+	  @startday = getStartDay((session[:wkreport][:from]).to_s.to_date)
+	  render :action => 'time_rpt', :layout => false
 	end
 
 		############ Moved from private ##############
